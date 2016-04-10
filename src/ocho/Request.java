@@ -1,4 +1,4 @@
-package cinco;
+package ocho;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -37,11 +37,12 @@ public class Request {
 
             os.write(request.getBytes());
 
-            Response response = analizeResponse(is);
+            System.out.println(getStringFromInputStream(is));
+            /*Response response = analizeResponse(is);
             System.out.println("Header: ");
             System.out.println(response.getHeader());
             System.out.println("Body: ");
-            System.out.println(response.getBody());
+            System.out.println(response.getBody());*/
 
 
 
@@ -63,6 +64,8 @@ public class Request {
 
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
+
+
 
         Response response = new Response();
         String line;
@@ -121,7 +124,8 @@ public class Request {
         try {
 
             br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
+
+            while ((line = brReadLine(br)) != null) {
                 sb.append(line);
                 System.out.println(i++ + ") " +line);
 
@@ -142,5 +146,23 @@ public class Request {
 
         return sb.toString();
 
+    }
+
+    private static String brReadLine(BufferedReader br) throws IOException{
+        StringBuilder sb = new StringBuilder();
+        char c;
+        int i;
+        try {
+            if((i=br.read()) == -1) return null;
+            c = (char) i;
+            while (c != '\n'){
+                sb.append(c);
+                c = (char) br.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return sb.toString();
     }
 }
